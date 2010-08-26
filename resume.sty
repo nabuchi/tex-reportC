@@ -1,0 +1,175 @@
+% Usage: \documentclass[a4]{jarticle}
+%
+\typeout{myreport_e.sty: 2004/12/29}
+\long\def\comment#1{}
+\usepackage{amsfonts}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{fancyhdr} 
+\usepackage[dvips]{graphicx}
+
+
+% Baselineskip
+\def\@normalsize{\@setsize\normalsize{15pt plus1pt minus1pt}\xpt\@xpt
+\abovedisplayskip 10pt plus2pt minus5pt\belowdisplayskip \abovedisplayskip
+\abovedisplayshortskip \z@ plus3pt\belowdisplayshortskip 6pt plus3pt
+minus3pt\let\@listi\@listI}
+
+% Size of characters
+\def\scislabelsize{\@setsize\scriptsize{8pt}\viipt\@viipt}
+
+% Page layout
+\textwidth       174.0mm
+%\textheight      258.0mm
+\textheight      275.0mm
+\oddsidemargin    -7mm
+\evensidemargin   -4.4mm
+\topmargin        -20.0mm
+%\topmargin        -17.0mm
+\headheight        0.0mm
+\headsep           3.0mm
+\footskip          0.0mm
+\columnsep         7.0mm
+\parindent 1zw\relax
+
+
+
+\pagestyle{fancy} 
+% with this we ensure that the chapter and section 
+% headings are in lowercase. 
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}} 
+\fancyhf{} % delete current setting for header and footer 
+\fancyhead[RO]{\it  Ohta-Sakiyama Lab.} 
+\fancyhead[C]{\small 平成23年度中間発表}
+\fancyhead[LO]{\protect{平成23年10月4日}}
+%\fancyhead[LO]{\bfseries\rightmark} 
+%\fancyhead[RE]{\bfseries\leftmark} 
+\renewcommand{\headrulewidth}{0.2pt}
+\renewcommand{\footrulewidth}{0pt} 
+\addtolength{\headheight}{0.5pt} % make space for the rule 
+\fancypagestyle{plain}{% 
+\fancyhead{} % get rid of headers on plain pages 
+\renewcommand{\headrulewidth}{0pt} % and the line 
+}
+
+
+
+
+% Two column
+\twocolumn
+\raggedbottom
+
+% Title, author, affiliation, abstract, and keywords
+\def\maketitle{
+  \par 
+  \begingroup
+  \def\thefootnote{\fnsymbol{footnote}}
+  \def\@makefnmark{\hbox to 0pt{$^{\@thefnmark}$\hss}}
+  \twocolumn[\@maketitle]\@thanks
+  \par 
+%\vskip 1.5em
+%\begin{center}
+%    { 
+%      \setlength{\baselineskip}{12pt}
+%      \quotation 
+%	\@abstract 
+%	\endquotation
+%   }
+%\end{center}
+
+%  \begin{center}
+%    {
+%      \setlength{\baselineskip}{12pt}
+%      \quotation 
+%\par\noindent	\@keywords 
+%\endquotation
+%    }
+%  \end{center}
+%  \par \vskip 1.5em
+
+  \endgroup
+  \setcounter{footnote}{0}
+  \let\maketitle\relax
+  \let\@maketitle\relax
+  \gdef\@thanks{}\gdef\@author{}\gdef\@title{}\let\thanks\relax
+}
+
+
+\def\@maketitle{
+  \newpage \null %\hfill
+
+
+  \par \vskip 1.5em
+
+  \begin{center}
+    {\LARGE \bf \@title \par} \vskip 1em
+    {
+      \large \lineskip .5em
+      \begin{tabular}[t]{c} 
+	(\@studentid)\  \@author   \and  指導教員 $\quad$ \@teacher
+      \end{tabular}
+      \par}
+  \end{center}
+% \par \vskip 1.5em
+ \begin{center}
+    { 
+      \setlength{\baselineskip}{12pt}
+      \quotation \@abstract \endquotation
+    }
+  \end{center}
+  \begin{center}
+    {
+	\vspace{-1.0em}
+      \setlength{\baselineskip}{12pt}
+      \quotation \@keywords \endquotation
+   }
+  \end{center}
+%  \par \vskip 1.5em
+}
+
+
+\def\@studentid{}
+\def\studentid{\eastudentid}
+\def\eastudentid#1{
+\def\@studentid{\noindent \textrm{#1}}}
+
+
+\def\@teacher{}
+\def\teacher{\eateacher}
+\def\eateacher#1{
+\def\@teacher{\noindent \textrm{#1}}}
+
+\def\samethanks#1{$^{\@fnsymbol{#1}}$}
+
+\def\@abstract{}
+\def\abstract{\@ifstar{\jabstract}{\eabstract}}
+\def\intro{\@ifstar{\jabstract}{\eabstract}}
+\def\jabstract#1{\def\@abstract{\noindent \hbox to 0.5\parindent{}{\bf あらまし }#1}}
+\def\eabstract#1#2{\def\@abstract{\noindent \hbox to 0.5\parindent{}{% 
+{\large\bf #1 }} #2}}
+
+
+\def\@keywords{}
+\def\keywords{\@ifstar{\jkeywords}{\ekeywords}}
+\def\jkeywords#1{\def\@keywords{\noindent \hbox to 0.5\parindent{}{\bf キーワード }#1}}
+\def\ekeywords#1{\def\@keywords{\noindent \hbox to 0.5\parindent{}{\bf Keywords: }#1}}
+
+% Affiliation
+\long\def\@makefntext#1{%
+  \everypar={\hangindent=1zw \hangafter=1 \@nobreakfalse\@minipagefalse}%
+  \parindent 1zw\noindent%
+  \hbox to 0.5zw{\hss$^{\@thefnmark}$} \strut #1\strut
+}
+
+% Section, subsection
+\def\section{\@startsection{section}{1}{\z@}{2.5ex plus 1ex minus .2ex}
+  {1.5ex plus .2ex}{\large\bf}}
+\def\subsection{\@startsection{subsection}{2}{\z@}{2.25ex plus 1ex minus .2ex}
+  {0.8ex plus .2ex}{\normalsize\bf}}
+\def\subsubsection{\@startsection{subsubsection}{3}{\z@}{2.0ex plus 1ex minus .2ex}
+  {0.5ex plus .2ex}{\normalsize\bf}}
+\def\paragraph{\@startsection{paragraph}{4}{\z@}{1.75ex plus 1ex minus .2ex}
+  {-1em}{\normalsize\bf}}
+\def\subparagraph{\@startsection {subparagraph}{4}{\parindent}
+  {1.5ex plus 1ex minus .2ex}{-1em}{\normalsize\bf}}
+
+% end of file

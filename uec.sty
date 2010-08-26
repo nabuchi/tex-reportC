@@ -1,0 +1,145 @@
+%================
+% report format
+%================
+\setlength{\textwidth}{6.525in}
+\setlength{\oddsidemargin}{2.0mm}
+\setlength{\topmargin}{-.53in}
+\setlength{\textheight}{9.73in}
+\setlength{\columnsep}{0.8cm}
+\setlength{\footskip}{.53in} %page number placement%
+%\setlength{\parindent}{1em}
+\renewcommand{\baselinestretch}{1.2}
+%\mathindent1.5cm % for fleqn.sty
+
+
+%=======================
+% table of contents head
+%=======================
+\renewcommand{\contentsname}{目次}
+
+%
+%================
+% chapter head
+%================
+\def\@chapapp{章}
+\def\@chapappi{第}
+\def\@makechapterhead#1{\vspace*{20pt} { \parindent 0pt \raggedright 
+ \ifnum \c@secnumdepth >\m@ne \huge\bf \@chapappi{}\thechapter\@chapapp{} \par 
+ \vskip 20pt \fi \Huge \bf #1\par 
+ \nobreak \vskip 20pt } }
+
+\def\appendix{\par
+ \setcounter{chapter}{0}
+ \setcounter{section}{0}
+ \def\@chapapp{}
+ \def\@chapappi{付録}
+ \def\thechapter{\Alph{chapter}}}
+%==================================
+% chapter numbering
+% to hold figure & table num
+%==================================
+\newcounter{escfig}[chapter] %%%
+\newcounter{esctab}[chapter] %%%
+
+\def\@chapter[#1]#2{\ifnum \c@secnumdepth >\m@ne
+
+\setcounter{escfig}{\value{figure}} %%%
+\setcounter{esctab}{\value{table}}
+ \refstepcounter{chapter}
+\setcounter{figure}{\value{escfig}}
+\setcounter{table}{\value{esctab}} %%%
+
+ \typeout{\@chapappi\space\thechapter.\@chapapp}
+ \addcontentsline{toc}{chapter}{\protect
+ \numberline{\thechapter}#1}\else
+ \addcontentsline{toc}{chapter}{#1}\fi
+ \chaptermark{#1}
+ \addtocontents{lof}{\protect\addvspace{10pt}}
+\addtocontents{lot}{\protect\addvspace{10pt}} \if@twocolumn
+\@topnewpage[\@makechapterhead{#2}] 
+ \else \@makechapterhead{#2}
+ \@afterheading \fi} 
+%==================================
+% bibliography
+% title
+%==================================
+
+\def\thebibliography#1{\chapter*{参 考 文 献\@mkboth
+ {関 連 書 籍}{関 連 書 籍}}\list
+ {[\arabic{enumi}]}{\settowidth\labelwidth{[#1]}\leftmargin\labelwidth
+ \advance\leftmargin\labelsep
+ \usecounter{enumi}}
+ \def\newblock{\hskip .11em plus .33em minus .07em}
+ \sloppy
+ \sfcode`\.=1000\relax}
+\let\endthebibliography=\endlist
+%==================================
+% equation numbering style
+% figure & table numbering
+%==================================
+\def\thefigure{\thechapter.\@arabic\c@figure}
+\def\fps@figure{tbp}
+\def\ftype@figure{1}
+\def\ext@figure{lof}
+%\def\fnum@figure{Figure \thefigure}
+\def\fnum@figure{図 \thefigure}
+\def\figure{\@float{figure}}
+\let\endfigure\end@float
+\@namedef{figure*}{\@dblfloat{figure}}
+\@namedef{endfigure*}{\end@dblfloat}
+%---------------
+% table
+%---------------
+%\newcounter{table}[chapter]
+%\newcounter{table}
+\def\thetable{\thechapter.\@arabic\c@table}
+%\def\thetable{\@arabic\c@table}
+\def\fps@table{tbp}
+\def\ftype@table{2}
+\def\ext@table{lot}
+%\def\fnum@table{Table \thetable}
+\def\fnum@table{表 \thetable}
+\def\table{\@float{table}}
+\let\endtable\end@float
+\@namedef{table*}{\@dblfloat{table}}
+\@namedef{endtable*}{\end@dblfloat}
+%==================================
+% caption style
+%   ( 図1 : xxxxxxx )
+%==================================
+\long\def\@makecaption#1#2{
+ \vskip 10pt 
+ \setbox\@tempboxa\hbox{#1 : #2}  % make 1 space %
+ \ifdim \wd\@tempboxa >\hsize \unhbox\@tempboxa\par \else \hbox
+to\hsize{\hfil\box\@tempboxa\hfil} 
+ \fi}
+%===================
+% page style
+% added by taroh
+%===================
+\def\ps@sron{\let\@mkboth\@gobbletwo
+     \def\@oddhead{}\def\@oddfoot{\rm\hfil -- \thepage \ --
+     \hfil}\def\@evenhead{}\let\@evenfoot\@oddfoot}
+%===================
+%\ps@plain \pagenumbering{arabic} \onecolumn \if@twoside\else\raggedbottom\fi 
+\ps@sron \pagenumbering{arabic} \onecolumn \if@twoside\else\raggedbottom\fi 
+%
+%========== only change <sron> thispagestyle ==================
+\def\chapter{\clearpage \thispagestyle{sron} \global\@topnum\z@
+\@afterindenttrue \secdef\@chapter\@schapter} 
+%\def\@chapter[#1]#2{\ifnum \c@secnumdepth >\m@ne
+% \refstepcounter{chapter}
+% \typeout{\@chapapp\space\thechapter.}
+% \addcontentsline{toc}{chapter}{\protect
+% \numberline{\thechapter}#1}\else
+% \addcontentsline{toc}{chapter}{#1}\fi
+% \chaptermark{#1}
+% \addtocontents{lof}{\protect\addvspace{10pt}}
+%\addtocontents{lot}{\protect\addvspace{10pt}} \if@twocolumn
+%\@topnewpage[\@makechapterhead{#2}] 
+% \else \@makechapterhead{#2}
+% \@afterheading \fi} 
+%\def\@schapter#1{\if@twocolumn \@topnewpage[\@makeschapterhead{#1}]
+% \else \@makeschapterhead{#1} 
+% \@afterheading\fi}
+%============================================================================
